@@ -22,6 +22,15 @@ YTM is a way to quote bond prices. It represents the annualized return on a bond
 - Unlike YTM, the spot curve can be applied universally across securities and maturities, offering accurate pricing for any schedule of payments.
 - The spot curve is particularly crucial when pricing securities with varying cashflows or maturities, ensuring precision.
 
+Base case Conditions:
+  1. Remove treasuries with negative yield or yield equal 0, and remove NA
+OLS
+  1. At least one (for OLS) treasury maturity on each day
+  2. Retain Only treasuries that have not had any cashflow removed
+  3. Remove columns that have zero treasuries maturing on that date.
+  4. Remove rows that have had any cashflows removed 
+  5. Recurse to check Basecase Conditions
+
 ---
 
 ## Inflation-Adjusted Pricing
@@ -76,6 +85,8 @@ YTM is a way to quote bond prices. It represents the annualized return on a bond
 - By using the spot curve, any cashflow schedule—whether from a bond, project, or other financial instrument—can be accurately discounted to its present value.
 
 ---
+
+
 
 ## Summary
 The **spot curve** ensures precision and universality in pricing cashflows, whereas **YTM** serves as a bond-specific approximation that averages discount rates. Zero-coupon bond yields, as the foundation of the spot curve, provide the true discount rates necessary for precise valuation.
