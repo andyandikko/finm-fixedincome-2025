@@ -59,3 +59,52 @@ By following these steps, a perfectly hedged position is maintained throughout t
 
 This methodical approach to FRAs provides a clear framework for understanding and engaging in these financial instruments, which are integral to managing interest rate risk in finance.
 
+## Detailed Financial Strategy Using Treasury Bills
+
+This financial strategy involves forward contracts and Treasury bills (T-bills) to create a hedged investment position, illustrated with specific numerical examples and calculations.
+
+### Setting Up the Example:
+
+- **Capital**: $100 million
+- **Face Value**: $100 each for T-bills
+
+Assume:
+- **Price of 6-month T-bill** (`p_1`): $98 per $100 face value
+- **Price of 12-month T-bill** (`p_2`): $95 per $100 face value
+
+### Steps and Calculations:
+
+#### 1. Selling a Forward Contract:
+- Enter a forward contract to receive $100 million in 6 months, with a repayment obligation in 12 months.
+
+#### 2. Using Treasury Bills:
+- **Selling Short the 6-Month T-Bill**:
+  - Sell short $100 million worth of 6-month T-bills at $98 per $100 face value to initially receive $98 million.
+  
+- **Investing in the 12-Month T-Bill**:
+  - Use the $98 million to purchase 12-month T-bills at $95 per $100 face value, equating to approximately 1,031,579 units or a total face value of $103,157,900.
+
+#### 3. Settlements:
+- **At 6 Months**:
+  - Receive $100 million from the forward contract and buy back the 6-month T-bills.
+
+- **At 12 Months**:
+  - The 12-month T-bills mature and return approximately $103,157,900, which is used to repay the $100 million forward loan.
+
+#### 4. Hedging:
+- The hedge involves offsetting positions in 6-month and 12-month T-bills to neutralize interest rate risks, balancing differences in yields or prices through their respective maturities.
+
+#### 5. Calculating the Forward Rate:
+- **Hedge Ratio**:
+  - Calculated as the ratio of the prices of the 6-month to the 12-month T-bills: $\frac{98}{95} \approx 1.03$.
+
+- **Forward Rate**:
+  - Calculate using semi-annual compounding:
+    ```plaintext
+    Forward Rate = 2 \times (\frac{103,157,900}{100,000,000} - 1) = 2 \times 0.031579 = 6.316% per annum
+    ```
+
+### Conclusion:
+The forward discount rate, represented here by the forward rate of return at 6.316% per annum, effectively matches the ratio of the discount rates of the involved T-bills. This is critical because it implies that the forward rate must equal the rate that equilibrates the return over the forward period with current market conditions, as reflected by the yields of differently dated T-bills.
+
+The use of T-bills with different maturities in such a hedged structure provides a natural alignment of cash flows that ensures the investment's returns are synchronized with market interest rates, thus effectively determining the forward rate based on the comparative yields of these securities.

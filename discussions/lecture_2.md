@@ -64,14 +64,12 @@ A zero-coupon bond pays \$100 in one year.
 
 A common approximation for the **percentage change in bond price** is:
 
-\[
-\frac{dP}{P} \approx -D \,\Delta r \;+\; \tfrac{1}{2}C \,(\Delta r)^2,
-\]
+$\frac{dP}{P} \approx -D \,\Delta r \;+\; \tfrac{1}{2}C \,(\Delta r)^2$
 
 where:
 - \( D \) is the **duration** (first-order sensitivity).
 - \( C \) is the **convexity** (second-order sensitivity).
-- \( \Delta r \) is the **parallel shift** in interest rates (e.g., 0.01 for a 1% shift).
+- $\Delta r $ is the **parallel shift** in interest rates (e.g., 0.01 for a 1% shift).
 
 > **Note:**  
 > - Duration (\(D\)) and convexity (\(C\)) are both **positive** for typical (option-free) Treasury bonds.  
@@ -91,9 +89,9 @@ where:
 
 Duration is defined as:
 
-\[
+$
 D = -\frac{1}{P} \frac{dP}{dr}.
-\]
+$
 
 - The negative sign ensures \(D\) is **positive** for a typical bond (since \( \frac{dP}{dr} < 0 \) for Treasuries).
 - In practice, we quote \(D\) as a positive number, acknowledging that bond prices move **inversely** to rates.
@@ -117,7 +115,7 @@ For a coupon bond, **Macaulay Duration** can also be viewed as the **weighted av
 - Example: A 10-year Treasury with semiannual coupon payments has each coupon discounted to present. Those discounted amounts form the weights.
 - Higher coupons lead to **lower duration** since **more cash** is received **earlier**, reducing the bond’s sensitivity to interest rate changes.
 
-> **Derivative Definition**: Ultimately, the “weighted average time” formula is consistent with the derivative-based definition \(D = -\frac{1}{P}\frac{dP}{dr}\).
+> **Derivative Definition**: Ultimately, the “weighted average time” formula is consistent with the derivative-based definition $ D = -\frac{1}{P}\frac{dP}{dr} $.
 
 ---
 
@@ -127,7 +125,7 @@ For a coupon bond, **Macaulay Duration** can also be viewed as the **weighted av
 - To **hedge** duration risk, one typically rebalances positions regularly (just as in delta-hedging an option).
 
 > **Dollar Duration**:  
-> Sometimes used for hedging. Defined as \( \text{Duration} \times \text{Bond Price} \). It gives the **dollar change** in the bond price for a 1 percentage point change in rates.
+> Sometimes used for hedging. Defined as $ \text{Duration} \times \text{Bond Price} $. It gives the **dollar change** in the bond price for a 1 percentage point change in rates.
 
 ---
 

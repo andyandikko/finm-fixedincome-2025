@@ -115,6 +115,7 @@ Where:
 - A forward is equivalent to a single-date swap.
 - A swap can be viewed as a portfolio of forward contracts.
 - A forward rate agreement (FRA) is essentially a one-time swap.
+- The swap rate reflects the market's expectation of the future path of the floating rate, averaged over the term of the swap. This rate should theoretically align with the equivalent term spot rate, which is the yield on a zero-coupon bond maturing at the same time as the swap's maturity.
 
 
 ## 1. Impact of Reset Frequency on Duration
@@ -156,3 +157,165 @@ Where:
 **Conclusion**: The spread ensures FRNs price at **par on issuance** by correcting for deviations due to market dynamics, credit considerations, and investor expectations.
 
 --- 
+
+# Swaps and Duration Management
+
+## 1. Why Are Swaps Used Frequently?
+
+- **Swaps allow institutions to manage interest rate exposure efficiently** without buying or selling bonds.
+- They can **replicate a combination of Treasury bonds and Floating-Rate Notes (FRNs)**:
+  - **Treasury Bonds**: Have long duration (e.g., 30-year maturity → duration ~15-20 years).
+  - **FRNs**: Have near **zero duration**, resetting periodically to market rates.
+- **Swaps provide flexibility**:
+  - Adjust portfolio duration without changing bond holdings.
+  - Hedge against interest rate movements.
+
+---
+
+## 2. How Swaps Are Used to Change Duration
+
+- **Interest Rate Swaps** modify duration by exchanging fixed and floating cash flows.
+- **Duration of a Swap**:
+  - A **fixed-rate payer swap** **increases duration** because the party is exposed to fixed payments, making them sensitive to interest rate changes.
+  - A **floating-rate payer swap** **decreases duration** because the floating payments adjust with market rates, reducing sensitivity.
+
+### **Using Swaps to Adjust Portfolio Duration**
+- **Increase Duration**: Enter into a **pay floating, receive fixed** swap.
+  - Example: A company holding floating-rate liabilities (low duration) can **increase duration** by swapping them into fixed payments.
+- **Decrease Duration**: Enter into a **pay fixed, receive floating** swap.
+  - Example: A bond fund with long-duration assets can **reduce duration** by swapping fixed-rate cash flows for floating ones.
+
+---
+
+## 3. Example: Reducing Duration with a Swap
+
+**Scenario**:  
+- Suppose we hold **Treasury bonds with 30-year maturity**.
+  - Duration ≈ **15-20 years** (due to coupon payments).
+- We want to **reduce duration to near zero**.
+
+**Solution: Enter a 30-Year Swap**
+1. **Pay Fixed Rate** → Duration ≈ **-20 years**.
+2. **Receive Floating Rate** → Duration ≈ **0**.
+
+- The **fixed-rate exposures cancel out**.
+- The remaining exposure is to **floating-rate payments** (low duration).
+- **Result**: The portfolio duration is reduced to near zero.
+
+---
+
+## 4. Frequency of Payments Assumption
+
+- **Swaps typically assume equal frequency of fixed and floating payments** to simplify valuation.
+- In practice, conventions vary:
+  - **Fixed Leg**: Often **semi-annual payments** in the U.S. (like fixed-rate Treasury bonds).
+  - **Floating Leg**: Typically **quarterly payments** (e.g., based on SOFR or LIBOR before its phase-out).
+
+### **When to Pay Fixed vs. Floating**
+- **Pay Fixed, Receive Floating**:
+  - Used when expecting **rates to rise** (lock in lower fixed rates).
+  - Increases duration (acts like holding a fixed-rate bond).
+- **Pay Floating, Receive Fixed**:
+  - Used when expecting **rates to fall** (benefit from declining floating payments).
+  - Reduces duration (acts like holding a floating-rate bond).
+
+---
+
+## **Conclusion**
+Swaps are widely used because they provide a **flexible and cost-effective way to adjust duration** without the need to buy or sell bonds. By structuring swaps appropriately, institutions can hedge interest rate risk, optimize portfolio exposure, and match liabilities to assets efficiently.
+
+
+# Swap Pricing Formulas
+
+## 1. Understanding the Swap Components
+
+### **Swap Structure**
+The swap consists of two legs:
+- **Floating-Rate Leg** (modeled as a Floating Rate Note, FRN)
+- **Fixed-Rate Leg** (modeled as a fixed coupon bond)
+
+The swap value at any time $t$ is given by:
+
+$$
+value_{swap}(t,T;swaprate) = P_{\text{float}}(t,T;0) - P_{fixed}(t,T;cpn_{swap})
+$$
+
+where:
+- $P_{\text{float}}$: Price of the floating-rate bond.
+- $P_{\text{fixed}}$: Price of the fixed-rate bond.
+- $ cpn_{swap} $ : Fixed coupon rate (the swap rate swaprate) .
+
+### **Key Assumptions**
+- The swap has **equal frequency of fixed and floating payments**.
+- The **floating bond price is 100** at each reset date $T_i$.
+- The **discount factor $Z(0,T_i)$** represents the present value of $1 received at time $T_i$, using the risk-free curve.
+
+---
+
+## 2. Valuing the Swap at $t = 0$
+
+Since the swap is constructed as a **long floating-rate bond** and **short fixed-rate bond**, its value is:
+
+$$
+value_{swap}(0,T;swaprate) = 100 - 100 \left[ \sum_{i=1}^{M} Z(0,T_i) \frac{cpn_{swap}}{freq} + Z(0,T) \right]
+$$
+
+### **Breaking Down the Formula**
+#### **Floating Leg (First Term: $100$)**
+- The floating bond **resets to par** at each payment date.
+- Since we assume **no spreads or market frictions**, its value at reset is always **par (100)**.
+
+#### **Fixed Leg (Second Term)**
+- The fixed bond pays periodic coupons $ \frac{cpn_{swap}}{freq} $, discounted by $ Z(0,T_i) $.
+- The principal 100 is also discounted at maturity $ T $, giving the term $ Z(0,T) $.
+
+#### **Final Expression**
+Factor out 100 from both terms:
+
+$$
+value_{swap}(0,T;swaprate) = 100 \left[1 - Z(0,T) - \frac{cpn_{swap}}{freq} \sum_{i=1}^{M} Z(0,T_i) \right]
+$$
+
+---
+
+## 3. Solving for the Swap Rate $ swaprate $
+
+At swap initiation ($ t=0 $), the swap is priced such that its value is **0**:
+
+$$
+value_{swap}(0,T;swaprate) = 0
+$$
+
+Setting the above expression to zero:
+
+$$
+1 - Z(0,T) - \frac{cpn_{swap}}{freq} \sum_{i=1}^{M} Z(0,T_i) = 0
+$$
+
+Solving for $ cpn_{swap} $ (the swap rate):
+
+$$
+swaprate(0,T;freq) = freq \cdot \frac{1-Z(0,T)}{\sum_{i=1}^{M} Z(0,T_i)}
+$$
+
+---
+
+## 4. Interpretation of the Swap Rate Formula
+
+- $ swaprate $ is the **fair fixed rate** that equates the present value of fixed and floating payments.
+- The numerator $ (1 - Z(0,T)) $ represents the **discounted value of the notional amount at maturity**.
+- The denominator $ sum_{i=1}^{M} Z(0,T_i) $ represents the **present value of all fixed payments**.
+
+### **Intuition**
+- The swap rate is a **weighted average** of implied forward rates over the swap's lifetime.
+- The formula shows that the swap rate depends on:
+  - The **frequency of payments** ($ freq $).
+  - The **shape of the yield curve** (via $ Z(0,T_i) $).
+  - The **total maturity** $ T $.
+
+---
+
+## 5. Key Takeaways
+- **At initiation ($ t=0 $), the swap value is set to 0** by choosing a fixed rate that balances fixed and floating cash flows.
+- **The swap rate ($ swaprate $) represents the fair fixed rate** at which the present values of both legs match.
+- **Swaps effectively transform cash flows** between fixed and floating, allowing institutions to hedge interest rate risk.
